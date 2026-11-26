@@ -1,0 +1,29 @@
+# Render Blueprint for the FastAPI backend (free Web Service).
+# Render dashboard -> New -> Blueprint -> pick this repo. Secret values (sync: false)
+# are prompted for at creation and are NEVER stored in this file.
+services:
+  - type: web
+    name: knowledge-base-api
+    runtime: python
+    plan: free
+    rootDir: backend
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /health
+    autoDeploy: true
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.12.10
+      - key: SUPABASE_URL
+        sync: false
+      - key: SUPABASE_SERVICE_ROLE_KEY
+        sync: false
+      - key: SUPABASE_JWT_SECRET
+        sync: false
+      - key: GEMINI_API_KEY
+        sync: false
+      # Your Vercel URL, e.g. https://my-app.vercel.app
+      - key: FRONTEND_ORIGIN
+        sync: false
+      - key: ALLOW_LOCALHOST_ORIGINS
+        value: "false"
